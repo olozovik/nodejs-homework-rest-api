@@ -92,7 +92,7 @@ const updateContact = async (req, res) => {
       return res.status(404).json({ message: 'Not found' })
     }
 
-    let updatedContact = {
+    const updatedContact = {
       id: contactToChange.id,
       name: body.name ?? contactToChange.name,
       email: body.email ?? contactToChange.email,
