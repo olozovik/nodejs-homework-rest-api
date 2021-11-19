@@ -1,8 +1,5 @@
 const { getContacts, writeContacts } = require('./handleContacts')
-const {
-  contactAddValidation,
-  contactUpdateValidation,
-} = require('../validations/contacts')
+const { contactValidation } = require('../validations/contacts')
 
 const listContacts = async (req, res) => {
   try {
@@ -56,7 +53,7 @@ const addContact = async (req, res) => {
       return res.status(400).json({ message: 'missing required name field' })
     }
 
-    const { error } = await contactAddValidation(body)
+    const { error } = await contactValidation(body)
     if (error) {
       return res.status(400).json({ message: error.message })
     }
@@ -75,11 +72,11 @@ const updateContact = async (req, res) => {
   try {
     const body = req.body
 
-    if (!body.name && !body.email && !body.phone) {
+    if (!body.name ?? !body.email ?? !body.phone) {
       return res.status(400).json({ message: 'missing fields' })
     }
 
-    const { error } = await contactUpdateValidation(body)
+    const { error } = await contactValidation(body)
     if (error) {
       return res.status(400).json({ message: error.message })
     }
@@ -94,9 +91,9 @@ const updateContact = async (req, res) => {
 
     const updatedContact = {
       id: contactToChange.id,
-      name: body.name ?? contactToChange.name,
-      email: body.email ?? contactToChange.email,
-      phone: body.phone ?? contactToChange.phone,
+      name: body.name,
+      email: body.email,
+      phone: body.phone,
     }
 
     const newContacts = contacts.map(item => {
