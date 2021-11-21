@@ -4,6 +4,8 @@ const {
   listContacts,
   getContactById,
   addContact,
+  removeContact,
+  updateContact,
 } = require('../../controllers/contacts')
 
 router.get('/', listContacts)
@@ -11,9 +13,9 @@ router.get('/', listContacts)
 router.get('/:contactId', getContactById)
 
 router.post('/', addContact)
-//
-// router.delete('/:contactId', removeContact)
-//
-// router.put('/:contactId', updateContact)
+
+router.delete('/:contactId', removeContact)
+
+router.put('/:contactId', updateContact)
 
 module.exports = router
