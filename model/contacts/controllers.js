@@ -1,30 +1,42 @@
 const { getContacts, writeContacts } = require('./handleContacts')
-const { contactValidation } = require('../validations/contacts')
+const { contactValidation } = require('../../validations/contacts')
 
-const listContacts = async (req, res) => {
-  try {
-    const contacts = await getContacts()
-    res.status(200).json(contacts)
-  } catch (e) {
-    res.status(500).send(e.message)
+// ???
+const makeContactValidation = async () => {
+  if (!body.name ?? !body.email ?? !body.phone) {
+    return res.status(400).json({ message: 'missing fields' })
+  }
+
+  const { error } = await contactValidation(body)
+  if (error) {
+    return res.status(400).json({ message: error.message })
   }
 }
 
-const getContactById = async (req, res) => {
-  try {
-    const { contactId } = req.params
-    const contacts = await getContacts()
-    const contact = contacts.find(item => String(item.id) === contactId)
+// const listContacts = async (req, res) => {
+//   try {
+//     const contacts = await getContacts()
+//     res.status(200).json(contacts)
+//   } catch (e) {
+//     res.status(500).send(e.message)
+//   }
+// }
 
-    if (!contact) {
-      return res.status(404).json({ message: 'Not found' })
-    }
-
-    res.status(200).json(contact)
-  } catch (e) {
-    res.status(500).send(e.message)
-  }
-}
+// const getContactById = async (req, res) => {
+//   try {
+//     const { contactId } = req.params
+//     const contacts = await getContacts()
+//     const contact = contacts.find(item => String(item.id) === contactId)
+//
+//     if (!contact) {
+//       return res.status(404).json({ message: 'Not found' })
+//     }
+//
+//     res.status(200).json(contact)
+//   } catch (e) {
+//     res.status(500).send(e.message)
+//   }
+// }
 
 const removeContact = async (req, res) => {
   try {
@@ -44,29 +56,29 @@ const removeContact = async (req, res) => {
   }
 }
 
-const addContact = async (req, res) => {
-  try {
-    const contacts = await getContacts()
-    const body = req.body
-
-    if (!body.name ?? !body.email ?? !body.phone) {
-      return res.status(400).json({ message: 'missing required name field' })
-    }
-
-    const { error } = await contactValidation(body)
-    if (error) {
-      return res.status(400).json({ message: error.message })
-    }
-
-    const id = Date.now()
-    const newContact = { id, ...body }
-    contacts.push(newContact)
-    await writeContacts(contacts)
-    res.status(201).json(newContact)
-  } catch (e) {
-    res.status(500).send(e.message)
-  }
-}
+// const addContact = async (req, res) => {
+//   try {
+//     const contacts = await getContacts()
+//     const body = req.body
+//
+//     if (!body.name ?? !body.email ?? !body.phone) {
+//       return res.status(400).json({ message: 'missing required name field' })
+//     }
+//
+//     const { error } = await contactValidation(body)
+//     if (error) {
+//       return res.status(400).json({ message: error.message })
+//     }
+//
+//     const id = Date.now()
+//     const newContact = { id, ...body }
+//     contacts.push(newContact)
+//     await writeContacts(contacts)
+//     res.status(201).json(newContact)
+//   } catch (e) {
+//     res.status(500).send(e.message)
+//   }
+// }
 
 const updateContact = async (req, res) => {
   try {
@@ -110,9 +122,6 @@ const updateContact = async (req, res) => {
 }
 
 module.exports = {
-  listContacts,
-  getContactById,
   removeContact,
-  addContact,
   updateContact,
 }
