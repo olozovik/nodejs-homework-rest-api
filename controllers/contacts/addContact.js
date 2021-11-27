@@ -1,14 +1,11 @@
-const operations = require('../../model_/contacts')
+const { Contact } = require('../../models')
 
 const addContact = async (req, res, next) => {
-  try {
-    const body = req.body
-
-    const newContact = await operations.addContact(body)
-    res.status(201).json(newContact)
-  } catch (err) {
-    next(err)
-  }
+  const body = req.body
+  const newContact =
+    body.favorite === undefined ? { ...body, favorite: false } : body
+  const contact = await Contact.create(newContact)
+  res.status(201).json(contact)
 }
 
 module.exports = addContact
