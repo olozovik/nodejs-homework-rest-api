@@ -1,11 +1,9 @@
 const jwt = require('jsonwebtoken')
 const { User } = require('../models')
 
-const authError = (code, message) => {
-  const error = new Error(message)
-  if (code) {
-    error.status = code
-  }
+const authError = () => {
+  const error = new Error('Not authorized')
+  error.status = 401
   return error
 }
 
@@ -14,7 +12,7 @@ const authorization = () => {
     try {
       const { authorization } = req.headers
       if (!authorization) {
-        next(authError(401, 'No token'))
+        next(authError())
         return
       }
 
@@ -22,13 +20,13 @@ const authorization = () => {
 
       const { id } = await jwt.verify(token, process.env.SECRET)
       if (!id) {
-        next(authError(401, 'Not authorized'))
+        next(authError())
         return
       }
 
       const user = await User.findOne({ _id: id })
       if (!user) {
-        next(authError(401, 'Not authorized'))
+        next(authError())
         return
       }
 

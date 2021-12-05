@@ -1,12 +1,13 @@
 const express = require('express')
 const router = express.Router()
 
-const { signup, login } = require('../../controllers')
+const { signup, login, getCurrent } = require('../../controllers')
 
 const { joiRegisterSchema } = require('../../models')
-const { validation, ctrlWrapper } = require('../../middlewares')
+const { validation, ctrlWrapper, authorization } = require('../../middlewares')
 
 router.post('/signup', validation(joiRegisterSchema), ctrlWrapper(signup))
 router.post('/login', validation(joiRegisterSchema), ctrlWrapper(login))
+router.get('/current', authorization, ctrlWrapper(getCurrent))
 
 module.exports = router
