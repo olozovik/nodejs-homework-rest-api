@@ -27,7 +27,7 @@ const User = model('user', userSchema)
 
 const joiRegisterSchema = Joi.object({
   email: Joi.string().min(5).max(50).required().pattern(regExp.email),
-  password: Joi.string().min(7).max(20).required().pattern(regExp.phone),
+  password: Joi.string().min(5).max(20).required(),
 })
 
 module.exports = {
