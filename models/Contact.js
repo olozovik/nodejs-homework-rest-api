@@ -1,12 +1,6 @@
-const { Schema, model } = require('mongoose')
+const { Schema, SchemaTypes, model } = require('mongoose')
 const Joi = require('joi')
-
-const regExp = {
-  name: /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
-  email: /^(.+)@(.+)\.(.+)$/,
-  phone:
-    /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-}
+const regExp = require('./regExp')
 
 const contactSchema = new Schema(
   {
@@ -34,6 +28,10 @@ const contactSchema = new Schema(
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: SchemaTypes.ObjectId,
+      ref: 'user',
     },
   },
   { versionKey: false, timestamps: true },
