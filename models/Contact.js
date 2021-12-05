@@ -32,6 +32,7 @@ const contactSchema = new Schema(
     owner: {
       type: SchemaTypes.ObjectId,
       ref: 'user',
+      required: true,
     },
   },
   { versionKey: false, timestamps: true },
@@ -44,14 +45,9 @@ const joiContactsSchema = Joi.object({
   favorite: Joi.bool(),
 })
 
-const joiContactsFavoriteSchema = Joi.object({
-  favorite: Joi.bool().required(),
-})
-
 const Contact = model('contact', contactSchema)
 
 module.exports = {
   Contact,
   joiContactsSchema,
-  joiContactsFavoriteSchema,
 }

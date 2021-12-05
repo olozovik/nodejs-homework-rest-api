@@ -19,6 +19,7 @@ const login = async (req, res, nex) => {
 
   const { SECRET } = process.env
   const token = await jwt.sign({ id: user._id }, SECRET)
+  await User.findByIdAndUpdate(user._id, { token })
 
   res.json({
     token,

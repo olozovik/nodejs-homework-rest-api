@@ -9,25 +9,41 @@ const {
   updateFavorite,
 } = require('../../controllers')
 
-const { joiContactsSchema, joiContactsFavoriteSchema } = require('../../models')
-const { validation, ctrlWrapper, authorization } = require('../../middlewares')
+const { joiContactsSchema } = require('../../models')
+const {
+  validation,
+  ctrlWrapper,
+  authorization,
+  validContactId,
+} = require('../../middlewares')
 
 router.get('/', authorization, ctrlWrapper(listContacts))
 
-router.get('/:contactId', authorization, ctrlWrapper(getContactById))
+router.get(
+  '/:contactId',
+  authorization,
+  validContactId,
+  ctrlWrapper(getContactById),
+)
 
 router.post(
   '/',
-  validation(joiContactsSchema),
   authorization,
+  validation(joiContactsSchema),
   ctrlWrapper(addContact),
 )
 
-router.delete('/:contactId', authorization, ctrlWrapper(removeContact))
+router.delete(
+  '/:contactId',
+  authorization,
+  validContactId,
+  ctrlWrapper(removeContact),
+)
 
 router.put(
   '/:contactId',
   authorization,
+  validContactId,
   validation(joiContactsSchema),
   ctrlWrapper(updateContact),
 )
@@ -35,7 +51,7 @@ router.put(
 router.patch(
   '/:contactId/favorite',
   authorization,
-  validation(joiContactsFavoriteSchema),
+  validContactId,
   ctrlWrapper(updateFavorite),
 )
 
