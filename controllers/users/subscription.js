@@ -21,6 +21,7 @@ const subscription = async (req, res, next) => {
   res.json({
     email: user.email,
     subscription: user.subscription,
+    avatarURL: user.avatarURL,
   })
 }
 
