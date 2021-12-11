@@ -1,10 +1,16 @@
+const mongoose = require('mongoose')
 const { Contact } = require('../../models')
 
 const getContactById = async (req, res, next) => {
   const { contactId } = req.params
-  const contact = await Contact.findById(contactId).exec()
+  const { _id: userId } = req.user
 
-  if (!contact) {
+  const contact = await Contact.find({
+    _id: contactId,
+    owner: userId,
+  }).populate('owner', 'id email')
+
+  if (contact.length === 0) {
     const error = new Error('Not found')
     error.status = 404
     return next(error)

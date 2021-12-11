@@ -1,12 +1,6 @@
-const { Schema, model } = require('mongoose')
+const { Schema, SchemaTypes, model } = require('mongoose')
 const Joi = require('joi')
-
-const regExp = {
-  name: /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
-  email: /^(.+)@(.+)\.(.+)$/,
-  phone:
-    /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
-}
+const regExp = require('./regExp')
 
 const contactSchema = new Schema(
   {
@@ -35,6 +29,11 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: SchemaTypes.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   { versionKey: false, timestamps: true },
 )
@@ -46,14 +45,9 @@ const joiContactsSchema = Joi.object({
   favorite: Joi.bool(),
 })
 
-const joiContactsFavoriteSchema = Joi.object({
-  favorite: Joi.bool().required(),
-})
-
 const Contact = model('contact', contactSchema)
 
 module.exports = {
   Contact,
   joiContactsSchema,
-  joiContactsFavoriteSchema,
 }
