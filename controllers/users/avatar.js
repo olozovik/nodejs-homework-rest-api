@@ -22,9 +22,7 @@ const avatar = async (req, res, next) => {
     res.json({
       status: 'success',
       code: 200,
-      ResponseBody: {
-        avatarURL: user.avatarURL,
-      },
+      avatarURL: user.avatarURL,
     })
   } catch (e) {
     await fs.unlink(tempPath)
