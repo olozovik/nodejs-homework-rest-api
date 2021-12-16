@@ -1,7 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
-const { getCurrent, subscription, avatar } = require('../../controllers')
+const {
+  getCurrent,
+  subscription,
+  avatar,
+  verify,
+} = require('../../controllers')
 
 const {
   ctrlWrapper,
@@ -17,5 +22,6 @@ router.patch(
   uploadAvatar.single('avatar'),
   ctrlWrapper(avatar),
 )
+router.get('/verify/:verificationToken', ctrlWrapper(verify))
 
 module.exports = router
