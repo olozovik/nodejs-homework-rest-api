@@ -2,7 +2,6 @@ const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
 require('dotenv').config()
-const { sendEmail } = require('./utils')
 
 const authRouter = require('./routes/api/auth')
 const usersRouter = require('./routes/api/users')

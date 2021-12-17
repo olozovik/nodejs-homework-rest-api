@@ -44,7 +44,12 @@ const joiRegisterSchema = Joi.object({
   password: Joi.string().min(5).max(20).required(),
 })
 
+const joinVerifyEmail = Joi.object({
+  email: Joi.required(),
+})
+
 module.exports = {
   User,
   joiRegisterSchema,
+  joinVerifyEmail,
 }

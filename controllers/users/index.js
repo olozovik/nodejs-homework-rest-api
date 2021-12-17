@@ -1,11 +1,13 @@
 const getCurrent = require('./getCurrent')
 const subscription = require('./subscription')
 const avatar = require('./avatar')
-const verify = require('./verificationToken')
+const verifyEmail = require('./verifyEmail')
+const verifyEmailResend = require('./verifyEmailResend')
 
 module.exports = {
   getCurrent,
   subscription,
   avatar,
-  verify,
+  verifyEmail,
+  verifyEmailResend,
 }
