@@ -22,6 +22,8 @@ const login = async (req, res, nex) => {
   await User.findByIdAndUpdate(user._id, { token })
 
   res.json({
+    status: 'success',
+    code: 200,
     token,
     user: {
       email: user.email,

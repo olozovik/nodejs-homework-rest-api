@@ -8,6 +8,6 @@ const { validation, ctrlWrapper, authorization } = require('../../middlewares')
 
 router.post('/signup', validation(joiRegisterSchema), ctrlWrapper(signup))
 router.post('/login', validation(joiRegisterSchema), ctrlWrapper(login))
-router.post('/logout', authorization, ctrlWrapper(logout))
+router.get('/logout', authorization, ctrlWrapper(logout))
 
 module.exports = router

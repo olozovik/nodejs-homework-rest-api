@@ -17,6 +17,7 @@ const verifyEmail = async (req, res, next) => {
   )
 
   res.json({ message: 'Verification successful' })
+  // redirect to front login ?
 }
 
 module.exports = verifyEmail

@@ -1,0 +1,162 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Phonebook API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api",
+      "description": "Local server"
+    }
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "email": "john@gmail.com",
+                "password": "pass123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User is created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 201,
+                  "user": {
+                    "email": "john@gmail.com",
+                    "subscription": "starter",
+                    "avatarURL": "//www.gravatar.com/avatar/9b5071cb25a9029111f37805536bef38",
+                    "verifyToken": "mJBdtU-Cf8QNyr5ZF3M8V",
+                    "verify": false
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "This email address is already taken"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "example": {
+                "email": "john@gmail.com",
+                "password": "pass123"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User is created",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMGUzYzA1Zjg5OWJhNDNhNzg2YTBmYyIsImlhdCI6MTY0NTEwMTEzOX0.nzzV2xAJKy2iT_ChIhrb3irGZejVhkCi0Ko-aHYQQlQ",
+                  "user": {
+                    "email": "john3@gmail.com",
+                    "subscription": "starter",
+                    "avatarURL": "//www.gravatar.com/avatar/9b5071cb25a9029111f37805536bef38"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password is wrong"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Logout user",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User logged out",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "message": "Succeeded logout"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password (min 5 characters)"
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@ const signup = async (req, res, next) => {
 
   const isEmailExist = await User.findOne({ email })
   if (isEmailExist) {
-    const error = new Error('Email in use')
+    const error = new Error('This email address is already taken')
     error.status = 409
     throw error
   }
@@ -36,6 +36,8 @@ const signup = async (req, res, next) => {
   })
 
   res.status(201).json({
+    status: 'success',
+    code: 201,
     user: {
       email: user.email,
       subscription: user.subscription,
