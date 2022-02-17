@@ -2,7 +2,6 @@ const path = require('path')
 const fs = require('fs/promises')
 const Jimp = require('jimp')
 const { User } = require('../../models')
-const { resize } = require('jimp')
 
 const avatar = async (req, res, next) => {
   const { path: tempPath, originalname } = req.file
@@ -18,7 +17,12 @@ const avatar = async (req, res, next) => {
       { new: true, runValidators: true },
     )
     const avatar = await Jimp.read(avatarsPath)
-    avatar.resize(250, 250).write(avatarsPath)
+    if (avatar.getWidth() > avatar.getHeight()) {
+      avatar.resize(250, Jimp.AUTO).write(avatarsPath)
+    } else {
+      avatar.resize(Jimp.AUTO, 250).write(avatarsPath)
+    }
+
     res.json({
       status: 'success',
       code: 200,

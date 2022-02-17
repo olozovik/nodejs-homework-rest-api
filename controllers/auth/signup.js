@@ -42,8 +42,6 @@ const signup = async (req, res, next) => {
       email: user.email,
       subscription: user.subscription,
       avatarURL: user.avatarURL,
-      verifyToken: user.verifyToken,
-      verify: user.verify,
     },
   })
 }

@@ -7,7 +7,7 @@ const subscription = async (req, res, next) => {
   const subscriptionValues = ['starter', 'pro', 'business']
   const isValueCorrect = subscriptionValues.some(item => item === subscription)
   if (!isValueCorrect) {
-    const error = new Error('Subscription value is not correct')
+    const error = new Error('There is no such a type of subscription')
     error.status = 400
     throw error
   }
@@ -19,9 +19,13 @@ const subscription = async (req, res, next) => {
   )
 
   res.json({
-    email: user.email,
-    subscription: user.subscription,
-    avatarURL: user.avatarURL,
+    status: 'success',
+    code: 200,
+    user: {
+      email: user.email,
+      subscription: user.subscription,
+      avatarURL: user.avatarURL,
+    },
   })
 }
 

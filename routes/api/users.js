@@ -21,7 +21,7 @@ const {
 router.get('/current', authorization, ctrlWrapper(getCurrent))
 router.patch('/subscription', authorization, ctrlWrapper(subscription))
 router.patch(
-  '/avatars',
+  '/avatar',
   authorization,
   uploadAvatar.single('avatar'),
   ctrlWrapper(avatar),

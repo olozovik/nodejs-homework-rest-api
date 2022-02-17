@@ -13,7 +13,7 @@
   "paths": {
     "/auth/signup": {
       "post": {
-        "tags": ["User"],
+        "tags": ["Authentication"],
         "summary": "Create user",
         "requestBody": {
           "required": true,
@@ -40,9 +40,7 @@
                   "user": {
                     "email": "john@gmail.com",
                     "subscription": "starter",
-                    "avatarURL": "//www.gravatar.com/avatar/9b5071cb25a9029111f37805536bef38",
-                    "verifyToken": "mJBdtU-Cf8QNyr5ZF3M8V",
-                    "verify": false
+                    "avatarURL": "//www.gravatar.com/avatar/9b5071cb25a9029111f37805536bef38"
                   }
                 }
               }
@@ -59,7 +57,7 @@
     },
     "/auth/login": {
       "post": {
-        "tags": ["User"],
+        "tags": ["Authentication"],
         "summary": "Login user",
         "requestBody": {
           "required": true,
@@ -104,7 +102,7 @@
     },
     "/auth/logout": {
       "get": {
-        "tags": ["User"],
+        "tags": ["Authentication"],
         "summary": "Logout user",
         "parameters": [
           {
@@ -138,6 +136,161 @@
           }
         }
       }
+    },
+    "/users/currents": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get info about current user",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Info about current user",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "user": {
+                    "email": "john@gmail.com",
+                    "subscription": "starter",
+                    "avatarURL": "//www.gravatar.com/avatar/9b5071cb25a9029111f37805536bef38"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/subscription": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Change a type of subscription",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSubscription"
+              },
+              "example": {
+                "subscription": "pro"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A type of subscription is changed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "user": {
+                    "email": "john3@gmail.com",
+                    "subscription": "pro",
+                    "avatarURL": "//www.gravatar.com/avatar/9b5071cb25a9029111f37805536bef38"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "There is no such a type of subscription"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/users/avatar": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Change an avatar",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multiform/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The avatar is changed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "user": {
+                    "status": "success",
+                    "code": 200,
+                    "avatarURL": "public\\avatars\\1645128831807_h5sqvJdlOlY.jpg"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
     }
   },
 
@@ -154,6 +307,17 @@
           "password": {
             "type": "string",
             "description": "User password (min 5 characters)"
+          }
+        }
+      },
+      "UserSubscription": {
+        "type": "object",
+        "required": ["subscription"],
+        "properties": {
+          "subscription": {
+            "type": "string",
+            "description": "A type of subscription",
+            "enum": ["starter", "pro", "business"]
           }
         }
       }
