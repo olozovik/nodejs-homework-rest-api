@@ -10,7 +10,7 @@ const getContactById = async (req, res, next) => {
   }).populate('owner', 'id email')
 
   if (!contact) {
-    const error = new Error('The contact is not found')
+    const error = new Error('Not found')
     error.status = 404
     return next(error)
   }

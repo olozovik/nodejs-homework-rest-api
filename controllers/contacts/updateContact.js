@@ -19,7 +19,11 @@ const updateContact = async (req, res, next) => {
     return next(err)
   }
 
-  res.json(contact)
+  res.json({
+    status: 'success',
+    code: 200,
+    contact,
+  })
 }
 
 module.exports = updateContact

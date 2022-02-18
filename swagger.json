@@ -137,7 +137,7 @@
         }
       }
     },
-    "/users/currents": {
+    "/users/current": {
       "get": {
         "tags": ["User"],
         "summary": "Get info about current user",
@@ -320,7 +320,7 @@
                     "favorite": false,
                     "owner": {
                       "_id": "620e3c05f899ba43a786a0fc",
-                      "email": "oldisc3@gmail.com"
+                      "email": "john@gmail.com"
                     },
                     "createdAt": "2022-02-18T13:42:52.136Z",
                     "updatedAt": "2022-02-18T13:42:52.136Z"
@@ -332,7 +332,7 @@
                     "favorite": false,
                     "owner": {
                       "_id": "620e3c05f899ba43a786a0fc",
-                      "email": "oldisc3@gmail.com"
+                      "email": "john@gmail.com"
                     },
                     "createdAt": "2022-02-18T14:06:26.159Z",
                     "updatedAt": "2022-02-18T14:06:26.159Z"
@@ -344,7 +344,7 @@
                     "favorite": false,
                     "owner": {
                       "_id": "620e3c05f899ba43a786a0fc",
-                      "email": "oldisc3@gmail.com"
+                      "email": "john@gmail.com"
                     },
                     "createdAt": "2022-02-18T14:06:49.669Z",
                     "updatedAt": "2022-02-18T14:06:49.669Z"
@@ -356,7 +356,7 @@
                     "favorite": false,
                     "owner": {
                       "_id": "620e3c05f899ba43a786a0fc",
-                      "email": "oldisc3@gmail.com"
+                      "email": "john@gmail.com"
                     },
                     "createdAt": "2022-02-18T14:07:10.138Z",
                     "updatedAt": "2022-02-18T14:07:10.138Z"
@@ -470,7 +470,7 @@
                     "favorite": false,
                     "owner": {
                       "_id": "620e3c05f899ba43a786a0fc",
-                      "email": "oldisc3@gmail.com"
+                      "email": "john@gmail.com"
                     },
                     "createdAt": "2022-02-18T13:42:52.136Z",
                     "updatedAt": "2022-02-18T13:42:52.136Z"
@@ -483,7 +483,195 @@
             "description": "Not authorized"
           },
           "404": {
-            "description": "The contact is not found"
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Contacts"],
+        "summary": "Update a contact",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "description": "Contact Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contact"
+              },
+              "example": {
+                "name": "Bart Simpson",
+                "phone": "555-55-56"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contact is updated",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "contact": {
+                    "_id": "620fa80efcdea0618a8a6f51",
+                    "name": "Bart Simpson",
+                    "phone": "555-55-56",
+                    "favorite": false,
+                    "owner": {
+                      "_id": "620e3c05f899ba43a786a0fc",
+                      "email": "john@gmail.com"
+                    },
+                    "createdAt": "2022-02-18T14:07:10.138Z",
+                    "updatedAt": "2022-02-18T18:51:17.049Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Contacts"],
+        "summary": "Delete a contact",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "description": "Contact Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The contact is deleted",
+            "content": {
+              "application/json": {
+                "example": { "message": "contact is deleted" }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/contacts/{contactId}/favorite": {
+      "patch": {
+        "tags": ["Contacts"],
+        "summary": "Toggle favorite status",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "description": "Contact Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FavoriteContact"
+              },
+              "example": {
+                "favorite": "true"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A type of subscription is changed",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "contact": {
+                    "_id": "620fa80efcdea0618a8a6f51",
+                    "name": "Bart Simpson",
+                    "phone": "555-55-56",
+                    "favorite": true,
+                    "owner": {
+                      "_id": "620e3c05f899ba43a786a0fc",
+                      "email": "john@gmail.com"
+                    },
+                    "createdAt": "2022-02-18T14:07:10.138Z",
+                    "updatedAt": "2022-02-18T19:03:30.112Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "missing field favorite"
+          },
+          "401": {
+            "description": "Not authorized"
           },
           "500": {
             "description": "Server error"
@@ -509,6 +697,7 @@
           }
         }
       },
+
       "UserSubscription": {
         "type": "object",
         "required": ["subscription"],
@@ -520,6 +709,7 @@
           }
         }
       },
+
       "Contact": {
         "type": "object",
         "required": ["name", "phone"],
@@ -531,6 +721,17 @@
           "phone": {
             "type": "string",
             "description": "Contact's phone number"
+          }
+        }
+      },
+
+      "FavoriteContact": {
+        "type": "object",
+        "required": ["favorite"],
+        "properties": {
+          "favorite": {
+            "type": "boolean",
+            "description": "Contact's favorite status"
           }
         }
       }
