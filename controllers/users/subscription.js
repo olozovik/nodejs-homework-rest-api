@@ -6,6 +6,7 @@ const subscription = async (req, res, next) => {
   const { subscription } = req.body
   const subscriptionValues = ['starter', 'pro', 'business']
   const isValueCorrect = subscriptionValues.some(item => item === subscription)
+
   if (!isValueCorrect) {
     const error = new Error('There is no such a type of subscription')
     error.status = 400

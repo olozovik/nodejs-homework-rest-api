@@ -15,7 +15,7 @@ const removeContact = async (req, res, next) => {
     return next(err)
   }
 
-  res.json({ message: 'contact deleted' })
+  res.json({ message: 'contact is deleted' })
 }
 
 module.exports = removeContact
