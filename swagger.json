@@ -291,6 +291,205 @@
           }
         }
       }
+    },
+    "/contacts": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get all contacts",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contacts are received",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "_id": "620fa25c7d81d1e701f55a3d",
+                    "name": "Homer Simpson",
+                    "phone": "555-55-55",
+                    "favorite": false,
+                    "owner": {
+                      "_id": "620e3c05f899ba43a786a0fc",
+                      "email": "oldisc3@gmail.com"
+                    },
+                    "createdAt": "2022-02-18T13:42:52.136Z",
+                    "updatedAt": "2022-02-18T13:42:52.136Z"
+                  },
+                  {
+                    "_id": "620fa7e2fcdea0618a8a6f4b",
+                    "name": "Marge Simpson",
+                    "phone": "555-55-55",
+                    "favorite": false,
+                    "owner": {
+                      "_id": "620e3c05f899ba43a786a0fc",
+                      "email": "oldisc3@gmail.com"
+                    },
+                    "createdAt": "2022-02-18T14:06:26.159Z",
+                    "updatedAt": "2022-02-18T14:06:26.159Z"
+                  },
+                  {
+                    "_id": "620fa7f9fcdea0618a8a6f4e",
+                    "name": "Lisa Simpson",
+                    "phone": "555-55-55",
+                    "favorite": false,
+                    "owner": {
+                      "_id": "620e3c05f899ba43a786a0fc",
+                      "email": "oldisc3@gmail.com"
+                    },
+                    "createdAt": "2022-02-18T14:06:49.669Z",
+                    "updatedAt": "2022-02-18T14:06:49.669Z"
+                  },
+                  {
+                    "_id": "620fa80efcdea0618a8a6f51",
+                    "name": "Bart Simpson",
+                    "phone": "555-55-55",
+                    "favorite": false,
+                    "owner": {
+                      "_id": "620e3c05f899ba43a786a0fc",
+                      "email": "oldisc3@gmail.com"
+                    },
+                    "createdAt": "2022-02-18T14:07:10.138Z",
+                    "updatedAt": "2022-02-18T14:07:10.138Z"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Contacts"],
+        "summary": "Add a new contact",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Contact"
+              },
+              "example": {
+                "name": "Homer Simpson",
+                "phone": "555-55-55"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Contacts are received",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 201,
+                  "contact": {
+                    "name": "Homer Simpson",
+                    "phone": "555-55-55",
+                    "favorite": false,
+                    "owner": "620e3c05f899ba43a786a0fc",
+                    "_id": "620fa25c7d81d1e701f55a3d",
+                    "createdAt": "2022-02-18T13:42:52.136Z",
+                    "updatedAt": "2022-02-18T13:42:52.136Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/contacts/{contactId}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Get contact by Id",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "Token is given to the user",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "contactId",
+            "required": true,
+            "description": "Contact Id",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contacts are received",
+            "content": {
+              "application/json": {
+                "example": {
+                  "status": "success",
+                  "code": 200,
+                  "contact": {
+                    "_id": "620fa25c7d81d1e701f55a3d",
+                    "name": "Homer Simpson",
+                    "phone": "555-55-55",
+                    "favorite": false,
+                    "owner": {
+                      "_id": "620e3c05f899ba43a786a0fc",
+                      "email": "oldisc3@gmail.com"
+                    },
+                    "createdAt": "2022-02-18T13:42:52.136Z",
+                    "updatedAt": "2022-02-18T13:42:52.136Z"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "The contact is not found"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
     }
   },
 
@@ -302,7 +501,7 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "User email"
+            "description": "User email (needs to confirm)"
           },
           "password": {
             "type": "string",
@@ -318,6 +517,20 @@
             "type": "string",
             "description": "A type of subscription",
             "enum": ["starter", "pro", "business"]
+          }
+        }
+      },
+      "Contact": {
+        "type": "object",
+        "required": ["name", "phone"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Contact's name"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Contact's phone number"
           }
         }
       }

@@ -11,13 +11,13 @@ const contactSchema = new Schema(
       minlength: 2,
       maxlength: 50,
     },
-    email: {
-      type: String,
-      required: [true, 'Set email for contact'],
-      match: regExp.email,
-      minlength: 5,
-      maxlength: 50,
-    },
+    // email: {
+    //   type: String,
+    //   required: [true, 'Set email for contact'],
+    //   match: regExp.email,
+    //   minlength: 5,
+    //   maxlength: 50,
+    // },
     phone: {
       type: String,
       required: [true, 'Set phone for contact'],
@@ -40,7 +40,7 @@ const contactSchema = new Schema(
 
 const joiContactsSchema = Joi.object({
   name: Joi.string().min(2).max(50).required().pattern(regExp.name),
-  email: Joi.string().min(5).max(50).required().pattern(regExp.email),
+  // email: Joi.string().min(5).max(50).required().pattern(regExp.email),
   phone: Joi.string().min(7).max(20).required().pattern(regExp.phone),
   favorite: Joi.bool(),
 })

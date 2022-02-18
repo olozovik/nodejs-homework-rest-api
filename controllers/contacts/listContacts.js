@@ -16,7 +16,11 @@ const listContacts = async (req, res, next) => {
     limit: Number(limit),
   }).populate('owner', 'id email')
 
-  res.json(contacts)
+  res.json({
+    status: 'success',
+    code: 200,
+    contacts,
+  })
 }
 
 module.exports = listContacts
